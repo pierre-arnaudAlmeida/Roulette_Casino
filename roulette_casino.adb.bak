@@ -1,0 +1,52 @@
+With Ada.Text_IO; use Ada.text_IO;
+WITH Ada.Integer_Text_IO; USE Ada.Integer_Text_IO;
+WITH Ada.Numerics.Discrete_Random;
+
+PROCEDURE Roulette_Casino IS
+
+   SUBTYPE Numero IS Integer RANGE 1..36;
+   PACKAGE Roulette IS NEW Ada.Numerics.Discrete_Random(Numero);
+   USE Roulette;
+   G : Generator;
+
+   FUNCTION LancerBoule (G : Generator) RETURN Numero IS
+   BEGIN
+      RETURN Random(G);
+   END LancerBoule;
+
+   TYPE Mise IS ARRAY (1..10) OF Integer;
+   M: Mise;
+   PROCEDURE AffectMise (M: in out Mise) is
+   BEGIN
+      FOR I IN M'RANGE LOOP
+         IF I=1
+               THEN M(I):= 1000;
+         ELSIF I>1
+               THEN M(I):= M(I-1) + 1000;
+            end If;
+      END LOOP;
+      FOR J IN M'RANGE LOOP
+         Put(M(J));Put("     Tapez :");Put(J,3);
+         New_Line;
+      END LOOP;
+
+
+   END AffectMise;
+
+
+BEGIN
+
+   Reset(G);
+   Put(LancerBoule(G));
+   New_line;
+   AffectMise(M);
+
+END Roulette_Casino;
+
+-- procedure get parie
+-- procedure lancer
+-- fonction gain (p: paris =; numero);
+-- quand il joue un chiffre pair multiplier par 2,
+-- sinon multiplier par 36
+
+
